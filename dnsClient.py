@@ -114,7 +114,7 @@ def dns_query(type, name, server):
     ID, FLAGS, QDCOUNT, ANCOUNT, NSCOUNT, ARCOUNT = struct.unpack('!HHHHHH', response_header) # We are unpacking the binary data of the response header into individual values representing the fields of the DNS header.
     
     # Parse the response question section (same as query)
-    response_question = data[12:12+len(data) - 12] # The data variable starts immediately after the header section, so what is it's index? Note the two '??' '??' will be the same value as we start at a specific index and then go for the entire length of the binary data received.
+    response_question = data[12:12+len(data)] # The data variable starts immediately after the header section, so what is it's index? Note the two '??' '??' will be the same value as we start at a specific index and then go for the entire length of the binary data received.
     assert response_question == question
 
     # Parse the response answer section
