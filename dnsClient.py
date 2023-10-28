@@ -110,11 +110,11 @@ def dns_query(type, name, server):
         # It is a good idea to choose a buffer size that is large enough to accommodate the largest expected DNS response, but not so large that it wastes memory.
     
     # Parse the response header
-    response_header = data[:12] # What is the size of the DNS response header in bytes?
+    response_header = data[:12] # What is the size of the DNS response header in bytes? 
     ID, FLAGS, QDCOUNT, ANCOUNT, NSCOUNT, ARCOUNT = struct.unpack('!HHHHHH', response_header) # We are unpacking the binary data of the response header into individual values representing the fields of the DNS header.
     
     # Parse the response question section (same as query)
-    response_question = data[12:12+len(data)] # The data variable starts immediately after the header section, so what is it's index? Note the two '??' '??' will be the same value as we start at a specific index and then go for the entire length of the binary data received.
+    response_question = data[12:12+len(question)] # The data variable starts immediately after the header section, so what is it's index? Note the two '??' '??' will be the same value as we start at a specific index and then go for the entire length of the binary data received. 
     assert response_question == question
 
     # Parse the response answer section
@@ -142,8 +142,8 @@ def dns_query(type, name, server):
         name = '.'.join(name_parts)
 
         # Parse the type, class, TTL, and RDLENGTH
-        type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+10]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents one byte, we declared '!HHIH'.
-
+        type, cls, ttl, rdlength = struct.unpack('!HHIH', response_answer[offset:offset+10]) # What is the offset value in bytes? Remember 'H' represent 2 bytes, and 'I' represents one byte, we declared '!HHIH'. 
+        
         offset += 10 # Same value as just calculated
 
         # Parse the RDATA
@@ -153,7 +153,7 @@ def dns_query(type, name, server):
         if type == 1: # Lookup Type value
             # A record (IPv4 address)
             ipv4 = socket.inet_ntop(socket.AF_INET, rdata)
-            print(f'{name} has IPv4 address {ipv4}')
+            print(f'{name} has IPv4 address {ipv4}')\
             return ipv4
         elif type == 28: # Lookup Type value
             # AAAA record (IPv6 address)
